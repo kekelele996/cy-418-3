@@ -1,5 +1,5 @@
 from datetime import datetime
-from src.constants.risk import RiskLevel, RISK_LEVEL_TEXT
+from src.constants.risk import RiskLevel, RISK_LEVEL_TEXT, ReviewStatus, REVIEW_STATUS_TEXT
 from src.constants.contract import ClauseType
 
 CLAUSE_TYPE_TEXT = {
@@ -19,6 +19,9 @@ def risk_level_text(level: RiskLevel | str) -> str:
 
 def clause_type_text(clause_type: ClauseType | str) -> str:
     return CLAUSE_TYPE_TEXT.get(ClauseType(clause_type), "其他")
+
+def review_status_text(status: ReviewStatus | str) -> str:
+    return REVIEW_STATUS_TEXT.get(ReviewStatus(status), "未知")
 
 def file_size_text(size: int) -> str:
     return f"{size / 1024:.1f} KB"

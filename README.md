@@ -79,6 +79,18 @@ ClauseType：
 - `backend/src/constants/log_templates.py`
 - `backend/src/utils/formatters.py`
 
+ReviewStatus：
+- `backend/src/constants/risk.py`
+- `backend/src/models/risk_item.py`
+- `backend/src/schemas/review.py`
+- `backend/src/services/risk_engine.py`
+- `backend/src/services/review_service.py`
+- `backend/src/services/report_generator.py`
+- `backend/src/controllers/review_controller.py`
+- `backend/src/routes/reviews.py`
+- `backend/src/constants/log_templates.py`
+- `backend/src/utils/formatters.py`
+
 ## 环境变量
 
 见 `.env.example`。所有数据库、Redis、JWT、上传目录配置均通过环境变量注入。

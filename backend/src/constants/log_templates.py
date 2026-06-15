@@ -13,6 +13,7 @@ LOG_TEMPLATES = {
     "REVIEW_DONE": "ReviewTask[id={id},risk_level={risk_level}] done",
     "REVIEW_FAILED": "ReviewTask[id={id}] failed: {reason}",
     "RISK_ITEM_CREATE": "RiskItem[clause_type={clause_type},risk_level={risk_level}] create",
+    "RISK_ITEM_UPDATE": "RiskItem[id={risk_item_id}] update status={review_status}",
     "RISK_ITEM_FILTER": "RiskItem[review_task_id={review_task_id}] filter {clause_type}/{risk_level}",
     "REPORT_EXPORT": "Report[review_id={review_id}] export",
     "REPORT_EXPORT_FAILED": "Report[review_id={review_id}] export failed: {reason}",

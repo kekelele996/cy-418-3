@@ -1,4 +1,5 @@
 from src.services import review_service
+from src.constants.risk import ReviewStatus
 from src.utils.logger import logger
 
 def create(user: dict, document_id: int) -> dict:
@@ -14,4 +15,12 @@ def get(review_id: int) -> dict:
 
 def risks(review_id: int) -> list[dict]:
     return review_service.list_risks(review_id)
+
+def update_status(review_id: int, risk_id: int, status: ReviewStatus) -> dict:
+    try:
+        return review_service.update_risk_status(review_id, risk_id, status)
+    except Exception as exc:
+        msg = f"RiskItem[id={risk_id}] update status failed: {exc}"
+        logger.error(msg)
+        raise
 
