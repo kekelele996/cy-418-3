@@ -1,0 +1,55 @@
+name: legalscan
+services:
+  db:
+    image: postgres:15
+    container_name: ${COMPOSE_PROJECT_NAME:-legalscan}_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - legalscan_pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  redis:
+    image: redis:7-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-legalscan}_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  backend:
+    build:
+      context: ./backend
+    container_name: ${COMPOSE_PROJECT_NAME:-legalscan}_backend
+    env_file: .env
+    ports:
+      - "19418:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+  worker:
+    build:
+      context: ./backend
+    container_name: ${COMPOSE_PROJECT_NAME:-legalscan}_worker
+    env_file: .env
+    command: celery -A src.config.celery.celery_app worker --loglevel=info
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+volumes:
+  legalscan_pgdata:
+
